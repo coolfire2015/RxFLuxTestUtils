@@ -1,4 +1,4 @@
-package com.huyingbao.rxfluxtestutils;
+package com.huyingbao.demo;
 
 import android.content.Context;
 
