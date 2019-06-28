@@ -54,7 +54,7 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
     private static final String FRAGMENT_TAG = "FragmentScenario_Fragment_Tag";
     final Class<A> mActivityClass;
     final Class<F> mFragmentClass;
-    private final ActivityScenario<A> mActivityScenario;
+    final ActivityScenario<A> mActivityScenario;
     @Nullable
     private final FragmentFactory mFragmentFactory;
 

@@ -53,11 +53,11 @@ public final class FragmentScenarioRule<A extends FragmentActivity, F extends Fr
 
     @Override
     protected void after() {
-        scenario.recreate();
+        scenario.mActivityScenario.close();
     }
 
     /**
-     * Returns {@link ActivityScenario} of the given activity class.
+     * Returns {@link FragmentScenario} of the given activity class.
      *
      * @return a non-null {@link ActivityScenario} instance
      * @throws NullPointerException if you call this method while test is not running
