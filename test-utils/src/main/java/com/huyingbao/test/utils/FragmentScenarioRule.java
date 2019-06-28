@@ -2,6 +2,8 @@ package com.huyingbao.test.utils;
 
 import android.os.Bundle;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -32,19 +34,34 @@ public final class FragmentScenarioRule<A extends FragmentActivity, F extends Fr
         T get();
     }
 
+    /**
+     * Fragment 添加到 Activity 通用布局ID上
+     */
     public FragmentScenarioRule(
-            Class<A> activityClass,
-            Class<F> fragmentClass,
-            Bundle args,
-            FragmentFactory fragmentFactory) {
-        scenarioSupplier = () -> FragmentScenario.launchInContainer(
-                Checks.checkNotNull(activityClass),
-                Checks.checkNotNull(fragmentClass),
-                args,
-                R.style.FragmentScenarioEmptyFragmentActivityTheme,
-                fragmentFactory);
+            @NonNull final Class<A> activityClass,
+            @NonNull final Class<F> fragmentClass,
+            @Nullable final Bundle fragmentArgs,
+            @Nullable final FragmentFactory factory) {
+        this(activityClass, fragmentClass, fragmentArgs, factory, android.R.id.content);
     }
 
+    /**
+     * Fragment 添加到 Activity 的布局ID上
+     */
+    public FragmentScenarioRule(
+            @NonNull final Class<A> activityClass,
+            @NonNull final Class<F> fragmentClass,
+            @Nullable final Bundle fragmentArgs,
+            @Nullable final FragmentFactory factory,
+            @IdRes final int containerViewId) {
+        scenarioSupplier = () -> FragmentScenario.internalLaunch(
+                Checks.checkNotNull(activityClass),
+                Checks.checkNotNull(fragmentClass),
+                fragmentArgs,
+                R.style.FragmentScenarioEmptyFragmentActivityTheme,
+                factory,
+                containerViewId);
+    }
 
     @Override
     protected void before() throws Throwable {

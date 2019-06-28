@@ -251,7 +251,7 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
 
     @NonNull
     @SuppressLint("RestrictedApi")
-    private static <A extends FragmentActivity, F extends Fragment> FragmentScenario<A, F> internalLaunch(
+    public static <A extends FragmentActivity, F extends Fragment> FragmentScenario<A, F> internalLaunch(
             @NonNull final Class<A> activityClass,
             @NonNull final Class<F> fragmentClass,
             final @Nullable Bundle fragmentArgs,
@@ -282,8 +282,9 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
                     .instantiate(classLoader, fragmentClass.getName());
             //给Fragment设置Arguments
             fragment.setArguments(fragmentArgs);
-            Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(fragmentClass.getSimpleName());
-            if (fragmentByTag == null) {
+            //根据containerViewId查找是否已经存在Fragment
+            Fragment fragmentById = supportFragmentManager.findFragmentById(containerViewId);
+            if (fragmentById == null) {
                 //Fragment类名为tag,不存在需要测试的Fragment
                 supportFragmentManager
                         .beginTransaction()
