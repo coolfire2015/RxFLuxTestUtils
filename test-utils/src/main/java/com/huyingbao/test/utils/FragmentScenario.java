@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -285,18 +286,24 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
             //根据containerViewId查找是否已经存在Fragment
             Fragment fragmentById = supportFragmentManager.findFragmentById(containerViewId);
             if (fragmentById == null) {
-                //Fragment类名为tag,不存在需要测试的Fragment
+                //不存在需要测试的Fragment，需要测试的Fragment，Fragment类名为tag。
                 supportFragmentManager
                         .beginTransaction()
                         .add(containerViewId, fragment, FRAGMENT_TAG)
                         .commitNow();
-            } else {
-                //Fragment类名为tag,存在需要测试的Fragment,替换旧的Fragment
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(containerViewId, fragment, FRAGMENT_TAG)
-                        .commitNow();
+                return;
             }
+            //当前位置已经存在Fragment
+            String fragmentByIdName = fragmentById.getClass().getSimpleName();
+            if (TextUtils.equals(fragmentByIdName, fragmentClass.getSimpleName())) {
+                //已存在的Fragment就是当前需要测试的Fragment
+                return;
+            }
+            //需要测试的Fragment替换旧的Fragment，Fragment类名为tag
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(containerViewId, fragment, FRAGMENT_TAG)
+                    .commitNow();
         });
         return scenario;
     }
