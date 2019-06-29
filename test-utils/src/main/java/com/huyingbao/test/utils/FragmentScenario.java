@@ -52,9 +52,9 @@ import androidx.test.core.app.ApplicationProvider;
  */
 public final class FragmentScenario<A extends FragmentActivity, F extends Fragment> {
 
-    private static final String FRAGMENT_TAG = "FragmentScenario_Fragment_Tag";
-    final Class<A> mActivityClass;
-    final Class<F> mFragmentClass;
+    private static String FRAGMENT_TAG;
+    private final Class<A> mActivityClass;
+    private final Class<F> mFragmentClass;
     final ActivityScenario<A> mActivityScenario;
     @Nullable
     private final FragmentFactory mFragmentFactory;
@@ -259,6 +259,9 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
             @StyleRes int themeResId,
             @Nullable final FragmentFactory factory,
             @IdRes final int containerViewId) {
+        //使用需要测试的Fragment的类名作为Tag
+        FRAGMENT_TAG=fragmentClass.getSimpleName();
+        //宿主Activity场景跳转
         Intent startActivityIntent = Intent.makeMainActivity(new ComponentName(ApplicationProvider.getApplicationContext(), activityClass));
         FragmentScenario<A, F> scenario = new FragmentScenario<>(
                 activityClass,
@@ -286,7 +289,7 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
             //根据containerViewId查找是否已经存在Fragment
             Fragment fragmentById = supportFragmentManager.findFragmentById(containerViewId);
             if (fragmentById == null) {
-                //不存在需要测试的Fragment，需要测试的Fragment，Fragment类名为tag。
+                //不存在需要测试的Fragment，则直接添加，Fragment类名为tag。
                 supportFragmentManager
                         .beginTransaction()
                         .add(containerViewId, fragment, FRAGMENT_TAG)
@@ -294,10 +297,13 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
                 return;
             }
             //当前位置已经存在Fragment
-            String fragmentByIdName = fragmentById.getClass().getSimpleName();
-            if (TextUtils.equals(fragmentByIdName, fragmentClass.getSimpleName())) {
+            if (TextUtils.equals(FRAGMENT_TAG, fragmentById.getClass().getSimpleName())) {
                 //已存在的Fragment就是当前需要测试的Fragment
-                return;
+                Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG);
+                if(fragmentByTag!=null&&TextUtils.equals(FRAGMENT_TAG,fragmentByTag.getClass().getSimpleName())){
+                    //根据Tag找到的Fragment就是当前需要测试的Fragment，返回
+                    return;
+                }
             }
             //需要测试的Fragment替换旧的Fragment，Fragment类名为tag
             supportFragmentManager
