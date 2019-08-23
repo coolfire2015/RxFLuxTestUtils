@@ -1,4 +1,4 @@
-package com.huyingbao.test.utils;
+package com.huyingbao.core.test.rxjava;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

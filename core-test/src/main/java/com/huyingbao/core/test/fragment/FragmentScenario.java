@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.huyingbao.test.utils;
+package com.huyingbao.core.test.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.StyleRes;
-import androidx.core.util.Preconditions;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentFactory;
@@ -37,6 +36,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+
+import com.huyingbao.core.test.R;
+import com.huyingbao.core.test.utils.Preconditions;
 
 /**
  * FragmentScenario provides API to start and drive a Fragment's lifecycle state for testing. It
@@ -260,7 +262,7 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
             @Nullable final FragmentFactory factory,
             @IdRes final int containerViewId) {
         //使用需要测试的Fragment的类名作为Tag
-        FRAGMENT_TAG=fragmentClass.getSimpleName();
+        FRAGMENT_TAG = fragmentClass.getSimpleName();
         //宿主Activity场景跳转
         Intent startActivityIntent = Intent.makeMainActivity(new ComponentName(ApplicationProvider.getApplicationContext(), activityClass));
         FragmentScenario<A, F> scenario = new FragmentScenario<>(
@@ -300,7 +302,7 @@ public final class FragmentScenario<A extends FragmentActivity, F extends Fragme
             if (TextUtils.equals(FRAGMENT_TAG, fragmentById.getClass().getSimpleName())) {
                 //已存在的Fragment就是当前需要测试的Fragment
                 Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG);
-                if(fragmentByTag!=null&&TextUtils.equals(FRAGMENT_TAG,fragmentByTag.getClass().getSimpleName())){
+                if (fragmentByTag != null && TextUtils.equals(FRAGMENT_TAG, fragmentByTag.getClass().getSimpleName())) {
                     //根据Tag找到的Fragment就是当前需要测试的Fragment，返回
                     return;
                 }

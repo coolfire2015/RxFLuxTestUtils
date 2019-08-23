@@ -1,4 +1,4 @@
-package com.huyingbao.test.utils;
+package com.huyingbao.core.test.fragment;
 
 import android.os.Bundle;
 
@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentFactory;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.internal.util.Checks;
 
+import com.huyingbao.core.test.R;
+
 import org.junit.rules.ExternalResource;
 
 /**
@@ -21,7 +23,7 @@ import org.junit.rules.ExternalResource;
  */
 public final class FragmentScenarioRule<A extends FragmentActivity, F extends Fragment> extends ExternalResource {
 
-    private final FragmentScenarioRule.Supplier<FragmentScenario<A, F>> scenarioSupplier;
+    private final Supplier<FragmentScenario<A, F>> scenarioSupplier;
     @Nullable
     private FragmentScenario<A, F> scenario;
 

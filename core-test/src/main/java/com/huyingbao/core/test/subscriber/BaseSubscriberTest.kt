@@ -1,8 +1,8 @@
-package com.huyingbao.test.module
+package com.huyingbao.core.test.subscriber
 
 import com.huyingbao.core.arch.action.RxActionManager
 import com.huyingbao.core.arch.dispatcher.RxDispatcher
-import com.huyingbao.test.utils.RxJavaRule
+import com.huyingbao.core.test.rxjava.RxJavaRule
 import org.junit.Rule
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnit

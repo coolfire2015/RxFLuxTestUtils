@@ -1,2 +1,2 @@
 include ':app'
-include ':test-utils'
+include ':core-test'

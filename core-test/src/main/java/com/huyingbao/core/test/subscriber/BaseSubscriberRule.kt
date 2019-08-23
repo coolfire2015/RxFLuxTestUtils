@@ -1,4 +1,4 @@
-package com.huyingbao.test.module
+package com.huyingbao.core.test.subscriber
 
 import com.huyingbao.core.arch.store.RxStore
 import com.huyingbao.core.arch.view.RxSubscriberView
